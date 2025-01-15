@@ -57,4 +57,41 @@ categories: jekyll update
     1. 在vscode扩展中搜索并安装c/c++
     2. 在扩展设置中关闭IntellSense功能
 
-## 配置
+## vscode配置
+
+为了支撑c++的开发，我们需要在vscode中配置以下两个配置文件。
+
+1. .vscode/tasks.json  
+
+tasks.json 文件用于配置任务运行器。我们可以在这里定义可以通过任务运行器执行的任务，例如编译代码、运行测试等。
+
+```json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "echo",
+            "type": "shell",
+            "command": "echo Hello, World",
+            "problemMatcher": []
+        }
+    ]
+}
+```
+
+2. .vscode/launch.json  
+
+launch.json 文件用于配置调试器。我们可以定义不同的调试配置，以便在 VS Code 中调试应用程序  
+
+```json
+{
+  "name": "C++ Launch",
+  "type": "cppdbg",
+  "request": "launch",
+  "program": "${workspaceFolder}/a.out",
+  "args": ["arg1", "arg2"],
+  "environment": [{ "name": "config", "value": "Debug" }],
+  "cwd": "${workspaceFolder}"
+}
+```
+
