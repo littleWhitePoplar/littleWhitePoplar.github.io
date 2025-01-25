@@ -13,11 +13,11 @@ unordered_map性能低的原因主要在于三点：
 * 更高的dtlb miss
 
 <p align = "center">    
-<img  alt="second-and-inst-and-ipc" src="{{ site.baseurl }}/docs/assets/images/2025-01-25_second-and-inst-and-ipc.png" width="400" />
+<img  alt="second-and-inst-and-ipc" src="https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_second-and-inst-and-ipc.png" width="400" />
 </p>
 
 <p align = "center">    
-<img  alt="dcache-miss-and-tlb-miss" src="{{ site.baseurl }}/docs/assets/images/2025-01-15_dcache-miss-and-tlb-miss.png" width="400" />
+<img  alt="dcache-miss-and-tlb-miss" src="https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-15_dcache-miss-and-tlb-miss.png" width="400" />
 </p>
 
 为了得到上述的数据，以下是我准备的一些内容：
@@ -38,15 +38,15 @@ benchmark:   udb2(https://github.com/attractivechaos/udb2.git)
 
 > 这里没有贴源码，是为了让大家简要了解它内部的大致实现，而不是分析源码中的具体优化和实现细节。
 
-![dcache-miss-and-tlb-miss.png](../assets/images/2025-01-25_ini.svg)
+![dcache-miss-and-tlb-miss.png](https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_ini.svg)
 
-![dcache-miss-and-tlb-miss.png](../assets/images/2025-01-25_emplace_14.svg)
+![dcache-miss-and-tlb-miss.png](https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_emplace_14.svg)
 
-![dcache-miss-and-tlb-miss.png](../assets/images/2025-01-25_emplace_25.svg)
+![dcache-miss-and-tlb-miss.png](https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_emplace_25.svg)
 
-![dcache-miss-and-tlb-miss.png](../assets/images/2025-01-25_emplace_12.svg)
+![dcache-miss-and-tlb-miss.png](https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_emplace_12.svg)
 
-![dcache-miss-and-tlb-miss.png](../assets/images/2025-01-25_emplace_23.svg)
+![dcache-miss-and-tlb-miss.png](https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_emplace_23.svg)
 
 从上面的图可以看到，每个桶实际指向了它的第一个元素的前一个节点，这是因为为了方便去进行insert和erase操作，因为这两个操作是需要知道前一个节点的。  
 
