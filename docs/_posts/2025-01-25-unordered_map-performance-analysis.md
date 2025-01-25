@@ -38,15 +38,15 @@ benchmark:   udb2(https://github.com/attractivechaos/udb2.git)
 
 > 这里没有贴源码，是为了让大家简要了解它内部的大致实现，而不是分析源码中的具体优化和实现细节。
 
-![dcache-miss-and-tlb-miss.png](https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_ini.svg)
+![ini](https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_ini.svg)
 
-![dcache-miss-and-tlb-miss.png](https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_emplace_14.svg)
+![emplace_14](https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_emplace_14.svg)
 
-![dcache-miss-and-tlb-miss.png](https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_emplace_25.svg)
+![emplace_25](https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_emplace_25.svg)
 
-![dcache-miss-and-tlb-miss.png](https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_emplace_12.svg)
+![emplace_12](https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_emplace_12.svg)
 
-![dcache-miss-and-tlb-miss.png](https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_emplace_23.svg)
+![emplace_23](https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_emplace_23.svg)
 
 从上面的图可以看到，每个桶实际指向了它的第一个元素的前一个节点，这是因为为了方便去进行insert和erase操作，因为这两个操作是需要知道前一个节点的。  
 
