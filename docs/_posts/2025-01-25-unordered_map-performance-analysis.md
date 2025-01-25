@@ -13,7 +13,7 @@ unordered_map性能低的原因主要在于三点：
 * 更高的dtlb miss
 
 <p align = "center">    
-<img  alt="second-and-inst-and-ipc" src="https://github.com/littleWhitePoplar/littleWhitePoplar.github.io/tree/main/docs/assets/images/2025-01-25_second-and-inst-and-ipc.png" width="400" />
+<img  alt="second-and-inst-and-ipc" src="{{site.baseurl}}/assets/images/2025-01-25_second-and-inst-and-ipc.png" width="400" />
 </p>
 
 <p align = "center">    
