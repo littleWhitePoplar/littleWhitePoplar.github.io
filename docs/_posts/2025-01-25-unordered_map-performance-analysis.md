@@ -38,14 +38,19 @@ benchmark:   udb2(https://github.com/attractivechaos/udb2.git)
 
 > 这里没有贴源码，是为了让大家简要了解它内部的大致实现，而不是分析源码中的具体优化和实现细节。
 
+* 初始状态
 ![ini]({{site.baseurl}}/assets/images/2025-01-25_ini.svg)
 
+* 将key为14的元素添加到unordered_map
 ![emplace_14]({{site.baseurl}}/assets/images/2025-01-25_emplace_14.svg)
 
+* 将key为25的元素添加到unordered_map
 ![emplace_25]({{site.baseurl}}/assets/images/2025-01-25_emplace_25.svg)
 
+* 将key为12的元素添加到unordered_map
 ![emplace_12]({{site.baseurl}}/assets/images/2025-01-25_emplace_12.svg)
 
+* 将key为13的元素添加到unordered_map
 ![emplace_23]({{site.baseurl}}/assets/images/2025-01-25_emplace_23.svg)
 
 从上面的图可以看到，每个桶实际指向了它的第一个元素的前一个节点，这是因为为了方便去进行insert和erase操作，因为这两个操作是需要知道前一个节点的。  
@@ -69,7 +74,7 @@ perf record --call-graph lbr ./run-test
 perf report
 ```
 
-这里可以看到，test_int这个函数占了接近90%的运行时间。它占比最高的指令是下面几条:
+我们从生成的perf来看，test_int这个函数占了接近90%的运行时间。它占比最高的指令是下面几条:
 
 1. mov (%rdi),%rbp
 
@@ -103,3 +108,30 @@ for (__node_ptr __p = static_cast<__node_ptr>(__prev_p->_M_nxt);;
 	__prev_p = __p;
 }
 ```
+
+### 3. 尝试优化
+
+既然我们知道了是缓存不友好导致的，那么接下来我们通过更换内存分配器来进行优化。这里我们使用FOONATHAN Memory的memory_pool来替换默认的内存分配器。
+
+1. 更换默认分配器
+```cpp
+// 使用下面的代码来替换原有的unordered_map
+memory::memory_pool<> pool(memory::unordered_map_node_size<std::pair<uint32_t,uint32_t>>::value, 4_KiB);
+memory::unordered_map<uint32_t,uint32_t,memory::memory_pool<>> h(pool);
+```
+
+2. 重新运行perf
+
+```sh
+perf stat -e instruction,cycles,dTLB-load-misses,dTLB-loads,dTLB-store-misses,dTLB-stores,L1-dcache-load-misses,L1-dcache-loads,LLC-load-misses,LLC-loads
+```
+
+<p align = "center">    
+<img  alt="second-and-inst-and-ipc" src="{{site.baseurl}}/assets/images/2025-02-14_second-and-inst-and-ipc.png" width="400" />
+</p>
+
+<p align = "center">    
+<img  alt="dcache-miss-and-tlb-miss" src="{{site.baseurl}}/assets/images/2025-02-14_dcache-miss-and-tlb-miss.png" width="400" />
+</p>
+
+我们从生成图像中，可以更容易的看到更换内存分配器后，unordered_map的性能确实更好了。second从unordered_dense的3.5倍变为了2.5倍；inst从1.9变为了1.25
